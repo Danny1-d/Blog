@@ -27,10 +27,11 @@ export const Hero = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          options.url,
-          {
-            headers: options.headers
-          }
+          'https://newsapi.org/v2/everything?q=tesla&from=2025-05-24&sortBy=publishedAt&apiKey=efb939077bab415c9bb7ba9b0f14776f'
+          // options.url,
+          // {
+          //   headers: options.headers
+          // }
         );
         console.log(response.data);
         setArticles(response.data);
