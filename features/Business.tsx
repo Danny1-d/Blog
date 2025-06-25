@@ -11,16 +11,6 @@ interface Article {
   urlToImage?: string;
 };
 
-const options = {
-  method: 'GET',
-  url: 'https://news-api65.p.rapidapi.com/api/v1/news/g/sports/latest',
-  params: {lang_reg: 'en-us'},
-  headers: {
-    'x-rapidapi-key': 'd3528f3c7fmsh9172479e352644ap12f77ejsn20cdbdb378e9',
-    'x-rapidapi-host': 'news-api65.p.rapidapi.com'
-  }
-};
-
 export const Business = () => {
 
   const [articles, setArticles] = useState<Article[]>([]);
@@ -29,13 +19,9 @@ export const Business = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          options.url,
-          {
-            params: options.params,
-            headers: options.headers
-          }
+           'https://newsapi.org/v2/everything?q=apple&from=2025-06-23&to=2025-06-23&sortBy=popularity&apiKey=efb939077bab415c9bb7ba9b0f14776f'
         );
-        setArticles(response.data);
+        setArticles(response.data.articles);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -50,7 +36,7 @@ export const Business = () => {
       <h2 className='text-lg font-semibold'>Business Stories</h2>
 
       <div className='grid grid-cols-2 md:grid-cols-3 space-y-4 gap-30'>
-        {articles.slice(0,6).map((article, index) => (
+        {Array.isArray(articles) && articles.slice(0,6).map((article, index) => (
           <div className="relative" key={index}>
             <Image
               src={article.urlToImage || '/background.png'}
@@ -58,13 +44,15 @@ export const Business = () => {
               width={250}
               height={10}
               className="md:w-150 md:h-70 w-100 h-20 object-cover rounded-lg shadow-lg"
+              unoptimized
             />
-            <div key={index} className='absolute md:top-40 md:right-15 my-5 ml-6 text-black bg-white flex flex-col items-center justify-center p-4 shadow-lg w-70'>
-              <h3 className='font-bold text-sm my-3'>{article.title.slice(0,50)}</h3>
-              <p className='text-sm'>{article.summary.slice(0,200)}</p>
+            <div className='absolute md:top-40 md:right-15 my-5 ml-6 text-black bg-white flex flex-col items-center justify-center p-4 shadow-lg w-70'>
+              <h3 className='font-bold text-sm my-3'>{article.title}</h3>
+              <p className='text-sm'>{article.summary}</p>
             </div>
           </div>
         ))}
+
       </div>
     </div>
   )

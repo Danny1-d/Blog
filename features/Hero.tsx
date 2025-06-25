@@ -10,31 +10,20 @@ interface Article {
   urlToImage?: string;
 };
 
-const options = {
-  method: 'GET',
-  url: 'https://news-api65.p.rapidapi.com/api/v1/crypto/listing_delisting',
-  headers: {
-    'x-rapidapi-key': 'd3528f3c7fmsh9172479e352644ap12f77ejsn20cdbdb378e9',
-    'x-rapidapi-host': 'news-api65.p.rapidapi.com'
-  }
-};
 
 export const Hero = () => {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [current, setCurrent] = useState(4);
+  const [current, setCurrent] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://newsapi.org/v2/everything?q=tesla&from=2025-05-24&sortBy=publishedAt&apiKey=efb939077bab415c9bb7ba9b0f14776f'
-          // options.url,
-          // {
-          //   headers: options.headers
-          // }
+          'https://newsapi.org/v2/everything?q=apple&from=2025-06-23&to=2025-06-23&sortBy=popularity&apiKey=efb939077bab415c9bb7ba9b0f14776f'
+ 
         );
         console.log(response.data);
-        setArticles(response.data.article);
+        setArticles(response.data.articles);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -43,14 +32,16 @@ export const Hero = () => {
     fetchData();
   }, []);
 
-  // Slideshow logic
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % articles.length);
-    }, 5000);
 
-    return () => clearInterval(interval);
-  }, [articles]);
+  useEffect(() => {
+  if (articles.length === 0) return;
+
+  const interval = setInterval(() => {
+    setCurrent((prev) => (prev + 1) % articles.length);
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, [articles]);
 
   const currentArticle = articles[current];
 
