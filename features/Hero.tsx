@@ -34,7 +34,7 @@ export const Hero = () => {
           // }
         );
         console.log(response.data);
-        setArticles(response.data);
+        setArticles(response.data.article);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
